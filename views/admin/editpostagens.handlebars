@@ -4,17 +4,18 @@
 {{/each}}
 <div class="card">
     <div class="card-body">
-        <h4>Nova postagem: </h4>
-        <form action="/admin/postagens/nova" method="post">
+        <h4>Editar postagem: </h4>
+        <form action="/admin/postagem/edit" method="post">
+        <input type="hidden" value="{{postagem._id}}" name="id">
             <label for="titulo">Título: </label>
-            <input type="text" name="titulo" class="form-control">
+            <input type="text" name="titulo" class="form-control"  value="{{postagem.titulo}}">
             <label for="slug">Slug: </label>
-            <input type="text" name="slug" class="form-control">
+            <input type="text" name="slug" class="form-control" value="{{postagem.slug}}" >
 
             <label for="descricao">Descrição: </label>
-            <input type="text" name="descricao" class="form-control">
+            <input type="text" name="descricao" class="form-control" value="{{postagem.descricao}}">
             <label for="conteudo">Conteúdo: </label>
-            <textarea name="conteudo" class="form-control" ></textarea>
+            <textarea name="conteudo" class="form-control"  >{{postagem.conteudo}}</textarea>
             <label for="cateoria">Categoria: </label>
             <select name="categoria" class="form-select">
                 {{#each categorias}}
@@ -24,7 +25,7 @@
                 {{/each}}
             </select>
            
-            <button type="submit" class="btn btn-success mt-4">Criar postagem</button>
+            <button type="submit" class="btn btn-success mt-4">Editar postagem</button>
         </form>
     </div>
 </div>

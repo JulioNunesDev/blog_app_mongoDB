@@ -5,6 +5,10 @@ const Port = 8081
 const admin = require('./routes/admin')
 const path = require('path')
 const { default: mongoose } = require('mongoose')
+const Postagem = require('./models/Postagem')
+const Categoria = require('./models/Categoria')
+
+
 const session = require('express-session')
 const flash = require('connect-flash')
     //const mongoose = require('mongoose')
@@ -51,6 +55,67 @@ app.use(express.static(path.join(__dirname, 'public')))
 //rotas 
 app.use('/admin', admin)
     //outros
+
+     
+    app.get('/postagem/:slug', (req, res)=>{ 
+        Postagem.findOne({slug: req.params.slug}).then((postagem)=>{
+            if(postagem){
+                res.render('postagem/index', {postagem: postagem})
+            }else{
+                req.flash('error_msg', 'Esta postagem nao existe')
+                res.redirect('/')
+            }
+        }).catch((err)=>{
+            req.flash('error_msg', 'Houve um erro interno')
+            res.redirect('/')
+        })
+    })
+
+app.get('/', (req, res)=>{
+    Postagem.find().populate('categoria').sort({data: 'desc'}).then((postagens)=>{
+
+        res.render('index', {postagens: postagens})
+    }).catch((err)=>{
+        req.flash('error_msg', 'Houve um erro interno' )
+        res.redirect('/404')
+    })
+}) 
+
+app.get('/categorias', (req, res)=>{ 
+    Categoria.find().then((categorias)=>{
+        res.render('categorias/index', {categorias: categorias})
+    }).catch((err)=>{
+        req.flash('error_msg', 'Houve um erro interno ao listar as categorias' )
+        res.redirect('/')
+    })
+})
+
+app.get('/categorias/:slug', (req, res)=>{
+    Categoria.findOne({slug: req.params.slug}).then((categoria)=>{
+
+        if(categoria){
+            Postagem.find({categoria: categoria._id}).then((postagens)=>{
+                res.render('categorias/postagens', {postagens: postagens, categoria: categoria})
+            }).catch((err)=>{
+                req.flash('error_msg', 'Houve um erro ao listar os posts!')
+                console.log(err);
+                res.redirect('/')
+            })
+
+
+        }else{
+            req.flash('error_msg', 'Esta categoria nao existe')
+            res.redirect('/')
+        }
+    }).catch((err)=>{
+        req.flash('error_msg', 'Houve um erro interno ao carregar a página desta categoria')
+        res.redirect('/')
+    })
+})
+
+app.get('/404', (req, res)=>{ 
+    res.send('404')
+})
 
 app.listen(Port, () => {
     console.log("Rodando na Porta: ", Port);
