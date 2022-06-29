@@ -1,8 +1,8 @@
 const express = require('express')
 const handlebars = require('express-handlebars')
 const bosyParser = require('body-parser')
-const Port = 8081
 const admin = require('./routes/admin')
+const Port = process.env.PORT || 8081
 const usuarios = require('./routes/usuario')
 const path = require('path')
 const { default: mongoose } = require('mongoose')
@@ -10,6 +10,7 @@ const Postagem = require('./models/Postagem')
 const Categoria = require('./models/Categoria')
 const passport = require('passport')
 require('./config/auth')(passport)
+require('dotenv').config()
 
 
 const session = require('express-session')
@@ -31,12 +32,16 @@ app.use(flash())
 app.use((req, res, next) => {
         res.locals.success_msg = req.flash('success_msg')
         res.locals.error_msg = req.flash('error_msg')
+        res.locals.error = req.flash('error')
+        res.locals.user = req.user || null
         next()
     })
     //middlewares!!
     //configurações
+    const db = require('./config/db')
 mongoose.Promise = global.Promise
-mongoose.connect('mongodb://localhost/blogapp').then(() => {
+mongoose.connect(db.mongoURI,
+{ useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
         console.log('Conectado ao Mongo')
     }).catch((err) => {
         console.log('Erro ao se conectar ao mongo', err);
