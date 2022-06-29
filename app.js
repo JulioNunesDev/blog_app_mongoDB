@@ -3,10 +3,13 @@ const handlebars = require('express-handlebars')
 const bosyParser = require('body-parser')
 const Port = 8081
 const admin = require('./routes/admin')
+const usuarios = require('./routes/usuario')
 const path = require('path')
 const { default: mongoose } = require('mongoose')
 const Postagem = require('./models/Postagem')
 const Categoria = require('./models/Categoria')
+const passport = require('passport')
+require('./config/auth')(passport)
 
 
 const session = require('express-session')
@@ -20,6 +23,8 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(flash())
 
 //middlewares!!
@@ -54,6 +59,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 //rotas 
 app.use('/admin', admin)
+app.use('/usuarios', usuarios)
     //outros
 
      
