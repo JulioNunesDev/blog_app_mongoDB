@@ -1,15 +1,18 @@
 
  require('dotenv').config()
- 
- const user = process.env.USER_MOGODB
- const pass = process.env.PASSWORD_MOGODB
+ const mongoose = require('mongoose')
 
- const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = `mongodb+srv://${user}:${pass}@apicluster.geygt.mongodb.net/?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-client.connect(err => {
-  const collection = client.db("test").collection("blog");
-  // perform actions on the collection object
-  client.close();
-});
+ 
+ const user = process.env.USER_MONGODB
+ const pass = process.env.PASSWORD_MONGODB
+
+
+    mongoose.connect(`mongodb+srv://${user}:${pass}@apicluster.geygt.mongodb.net/?retryWrites=true&w=majority`,{
+     useNewUrlParser: true, useUnifiedTopology: true
+    }).then(()=>{
+        console.log('servidor rodando');
+    }).catch((err)=>{
+        console.log('erro interno', err);
+    })
+
 
