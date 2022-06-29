@@ -10,7 +10,7 @@ const Postagem = require('./models/Postagem')
 const Categoria = require('./models/Categoria')
 const passport = require('passport')
 require('./config/auth')(passport)
-require('dotenv').config()
+require('./config/db')
 
 
 const session = require('express-session')
@@ -38,14 +38,7 @@ app.use((req, res, next) => {
     })
     //middlewares!!
     //configurações
-    const db = require('./config/db')
-mongoose.Promise = global.Promise
-mongoose.connect(db.mongoURI,
-{ useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
-        console.log('Conectado ao Mongo')
-    }).catch((err) => {
-        console.log('Erro ao se conectar ao mongo', err);
-    })
+
     //HandleBars
 app.engine('handlebars', handlebars.engine({
         defaultLayout: 'main',
