@@ -4,10 +4,9 @@ const mongoose = require('mongoose')
 const Usuario = require('../models/Usuario')
 const bcrypt = require('bcryptjs')
 const passport = require('passport')
+const controller = require('./controllers/usuario-controller')
 
-router.get('/registro', (req, res)=>{
-    res.render('usuarios/registro')
-})
+router.get('/registro', controller.get)
 
 router.post('/registro', (req, res)=>{
     var erros = []

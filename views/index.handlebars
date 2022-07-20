@@ -3,9 +3,12 @@
     <p class="lead">Este é um BLOG simples, desenvolvido com node.js + Express + MongoDB.</p>
     <hr class="mt-4">
     <p>Aqui você vai poder ler sobre as novidades do mundo da computação.</p>
+    	{{#if user}}
+        {{else}}
     <p class="lead">
-        <a class="btn btn-primary btn-lg" href="#" role="button">Crie uma conta</a>
+        <a class="btn btn-primary btn-lg" href="/usuarios/registro" role="button">Crie uma conta</a>
     </p>
+        {{/if}}
 </div><br>
      <hr>
 <h2>Postagem recentes: </h2>
