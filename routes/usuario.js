@@ -72,7 +72,9 @@ router.post('/registro', (req, res)=>{
 })
 
 router.get('/login', (req, res)=>{
-    res.render('usuarios/login')
+    res.render('usuarios/login', {
+        styles: 'index.css'
+    })
 })
 
 router.post('/login', (req, res, next)=>{

@@ -1,9 +1,12 @@
 <h2>Lista de categorias:</h2>
 <hr>
-<a href="/admin/categorias/add">
+<a href="/admin/categorias/add" style="margin-left: 10px ;">
 	<button class="btn btn-success">Nova categoria</button>
 </a>
+<hr>
 
+
+<section class="categorias">
 {{#each categorias}}
 <div class="card mt-4">
 	<div class="card-body">
@@ -22,3 +25,4 @@
 {{else}}
 <h4 class="mt-3">Nenhuma categoria registrada.</h4>
 {{/each}}
+</section>

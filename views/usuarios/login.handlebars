@@ -1,12 +1,20 @@
-<h4>Login: </h4>
-<div class="card">
-    <div class="card-body">
+
+<div class="container-xl" style="display: flex; flex-direction: column;
+justify-content: center; align-items: center; padding-top: 30px;
+"
+>
+    <img src="https://media.discordapp.net/attachments/945491578410119180/1016434487279763567/logo.png"  style="width:100%; max-width:  250px; height: 250px; object-fit: contain;"  alt="" srcset="">
+    <div class="container-sm" style="width: 100%; max-width: 500px; ">
         <form action="/usuarios/login" method="post">
         <label for="Email">Email: </label>
         <input type="email" name="email" class="form-control" required="true">
         <label for="Email">Senha: </label>
         <input type="password" name="senha" class="form-control" required="true">
-        <button type="submit" class="btn btn-success mt-4">Entrar</button>
+        <button type="submit" style="width: 100%; height: 45px;
+         border-radius: 8px; margin-top: 15px;
+         background-image: linear-gradient(120deg, #54519a 0%, #2e2b84 100%); color: white;
+         "
+        >Submit</button>
         </form>
     </div>
 </div>

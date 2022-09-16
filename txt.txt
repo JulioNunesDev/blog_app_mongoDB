@@ -1,0 +1,8 @@
+Colocar os codigos em css e js organizados - OK
+trocar fonts - OK
+estilizar card  - OK
+colocar select - OK
+colocar inout em editar books
+fazer conta na heroku
+
+models restantes - exemplares e data, 

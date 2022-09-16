@@ -12,7 +12,7 @@ router.get('/', eAdmin, (req, res) => {
 
 router.get('/categorias', eAdmin, (req, res) => {
     Categoria.find().sort({ date: 'desc' }).then((categorias) => {
-        res.render('admin/categorias', { categorias: categorias })
+        res.render('admin/categorias', { categorias: categorias, styles: 'index.css'})
     }).catch((err) => {
         req.flash('error_msg', 'Houve um erro ao listar as categorias!')
         res.redirect('/admin')
@@ -47,13 +47,13 @@ router.post('/categorias/nova', eAdmin, (req, res) => {
     }
 })
     router.get('/categorias/add', eAdmin, (req, res) => {
-    res.render('admin/addcategorias')
+    res.render('admin/addcategorias', {styles: 'index.css'})
 })
 
 
 router.get("/categorias/edit/:id", eAdmin, (req, res)=>{
     Categoria.findOne({_id: req.params.id}).then((categoria)=>{
-        res.render('admin/editcategorias', {categoria: categoria})
+        res.render('admin/editcategorias', {categoria: categoria, styles: 'index.css'})
     })
     .catch(()=>{
         req.flash('error_msg', 'Esta categoria não existe!')
@@ -92,9 +92,13 @@ router.post('/categorias/edit/:id', eAdmin, (req, res)=>{
     })
 })
 
+
+
+
 router.get('/postagens', eAdmin, (req, res) => {
+
     Postagem.find().lean().populate("categoria").sort({data:"desc"}).then((postagens)=>{
-        res.render('admin/postagens', {postagens: postagens})
+        res.render('admin/postagens', {postagens: postagens, styles: 'index.css'})
     })
     .catch((err)=>{
         req.flash('error_msg', 'Houve um erro ao carregar o formulario')
@@ -102,9 +106,30 @@ router.get('/postagens', eAdmin, (req, res) => {
     })
 })
 
+
+router.post('/postagensInput', eAdmin, (req, res) => {
+    let dadosInput = req.body.livroID
+    console.log(dadosInput)
+
+    if(!dadosInput || typeof req.body.livroID == undefined || req.body.livroID == null) {
+        req.flash('error_msg', 'Nao pode ser um campo vazio!')
+        res.redirect('/admin/postagens')
+    }
+    
+    Postagem.find({titulo: dadosInput}).lean().populate("categoria").sort({data:"desc"}).then((postagens)=>{
+        res.render('admin/postagens_v1', {postagens: postagens, styles: 'index.css'})
+    })
+    .catch((err)=>{
+        req.flash('error_msg', 'Houve um erro ao carregar o formulario')
+        res.render('/admin/postagens')
+    })
+   
+})
+
+
 router.get('/postagens/add', eAdmin, (req, res) => {
     Categoria.find().then((categorias)=>{
-        res.render('admin/addpostagens', {categorias: categorias})
+        res.render('admin/addpostagens', {categorias: categorias, styles: 'index.css'})
     }).catch((err)=>{
         req.flash('error_msg', 'Houve um erro ao carregar o formulário.')
         res.redirect('/admin')
@@ -125,10 +150,18 @@ router.post('/postagens/nova', eAdmin, (req, res)=>{
             
           
           const postagem = new Postagem({
-            titulo: req.body.titulo,
-            descricao: req.body.descricao,
-            conteudo: req.body.conteudo,
-            slug: req.body.slug,
+            NOME: req.body.nome,
+            AUTOR: req.body.autor,
+            DESCRICAO: req.body.descricao,
+            CONTEUDO: req.body.conteudo,
+            VOL: req.body.vol,
+            ED: req.body.ed,
+            ANO: req.body.ano,
+            EDITORA: req.body.editora,
+            ORIGEM: req.body.origem,
+            LOCALIZACAO: req.body.localizacao,
+            EXEMPLARES: req.body.exemplares,
+            DATA: req.body.data,
             categoria: req.body.categoria
        })
           postagem.save().then(()=>{
@@ -149,7 +182,7 @@ router.get('/postagens/edit/:id', eAdmin, (req, res)=>{
     Postagem.findOne({_id: req.params.id}).then((postagem)=>{
 
         Categoria.find().then((categorias)=>{
-            res.render('admin/editpostagens',{ categorias: categorias, postagem: postagem})
+            res.render('admin/editpostagens',{ categorias: categorias, postagem: postagem, styles: 'index.css'})
         }).catch(()=>{
             req.flash('error_msg', 'Houve um erro ao listar as categorias')
             res.redirect('/admin/postagens')
@@ -166,7 +199,7 @@ router.post('/postagem/edit', eAdmin, (req, res)=>{
     Postagem.findOne({_id: req.body.id}).then((postagem)=>{
 
         postagem.titulo = req.body.titulo
-        postagem.slug = req.body.slug
+        postagem.autor = req.body.autor
         postagem.descricao = req.body.descricao
         postagem.conteudo = req.body.conteudo
         postagem.categoria = req.body.categoria

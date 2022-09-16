@@ -1,0 +1,19 @@
+{
+    "categoria": ,
+    "autor": "JOÃO  AVELAR  LOBATO ",
+    "titulo": "A  ÍNDIA  QUE  EU VI:AVENTURAS E HISTÓRIAS NUMA DAS MAIS ANTIGAS CULTURAS DO MUNDO",
+    "volume": "U",
+    "EXEMPLARES": 4,
+    "ed": "",
+    "ano": 2009,
+    "ed": "LEITURA / BELO HORIZONTE - MG",
+    "ORIGEM": "FNDE",
+    "categoria": "ObjectId(631a60ac06b7d64b350d103d)",
+    "LOCALIZAÇÃO": "8E",
+    "genero": "HISTÓRIA ESTRANGEIRA"
+}
+
+"categoria":{"$oid":"62d76cf38420ae50bcafb05e"} - romance
+"categoria":{"$oid":"62d76cf38420ae50bcafb05e"} - ficao
+"categoria":{"$oid":"62d76cf38420ae50bcafb05e"} - tesxto
+

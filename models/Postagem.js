@@ -1,20 +1,49 @@
 const mongoose = require('mongoose')
 const Schema =  mongoose.Schema
 
-
+//
 const Postagem = new Schema({
-    titulo:{
-        type: String,
-        required: true
-    }, slug:{
-        type: String,
-        required: true
-    }, 
-    descricao: {
+    NOME:{
         type: String,
         required: true
     },
-    conteudo:{
+    AUTOR:{
+        type: String,
+        required: true
+    }, 
+    DESCRICAO: {
+        type: String,
+        required: true
+    },
+    CONTEUDO:{
+        type: String,
+        required: true
+    },
+    VOL: {
+        type: String,
+        required: true
+    },
+    ED: {
+        type: String,
+        required: true
+    },
+    ANO:{
+        type: String,
+        required: true
+    },
+    EDITORA:{
+        type: String,
+        required: true
+    },
+    ORIGEM:{
+        type: String,
+        required: true
+    },
+    LOCALIZAÇÃO: {
+        type: String,
+        required: true
+    },
+    EXEMPLARES: {
         type: String,
         required: true
     },
@@ -23,8 +52,12 @@ const Postagem = new Schema({
         ref: "categorias",
         required: true
         
-    }, 
-    data: {
+    },
+    DATA: {
+        type: String,
+        required: true
+    },
+    DATE: {
         type: Date,
         default: Date.now()
     }

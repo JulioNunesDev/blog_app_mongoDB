@@ -5,7 +5,7 @@ const admin = require('./routes/admin')
 const Port = process.env.PORT || 8081
 const usuarios = require('./routes/usuario')
 const path = require('path')
-const { default: mongoose } = require('mongoose')
+
 const Postagem = require('./models/Postagem')
 const Categoria = require('./models/Categoria')
 const passport = require('passport')
@@ -61,10 +61,10 @@ app.use('/usuarios', usuarios)
     //outros
 
      
-    app.get('/postagem/:slug', (req, res)=>{ 
-        Postagem.findOne({slug: req.params.slug}).then((postagem)=>{
+    app.get('/postagem/:autor', (req, res)=>{ 
+        Postagem.findOne({autor: req.params.autor}).then((postagem)=>{
             if(postagem){
-                res.render('postagem/index', {postagem: postagem})
+                res.render('postagem/index', {postagem: postagem, styles: 'index.css'})
             }else{
                 req.flash('error_msg', 'Esta postagem nao existe')
                 res.redirect('/')
@@ -75,19 +75,76 @@ app.use('/usuarios', usuarios)
         })
     })
 
-app.get('/', (req, res)=>{
-    Postagem.find().populate('categoria').sort({data: 'desc'}).then((postagens)=>{
 
-        res.render('index', {postagens: postagens})
+ 
+app.get('/', (req, res)=>{
+    
+    Postagem.find().populate('categoria').sort({data: 'desc'}).then((postagens)=>{
+        Categoria.find().then(cat =>{
+            res.render('index', {postagens: postagens,
+             cat: cat,
+             styles: 'index.css',
+             scripts: 'select.js'
+            })
+          
+        })
     }).catch((err)=>{
         req.flash('error_msg', 'Houve um erro interno' )
         res.redirect('/404')
     })
 }) 
 
+
+app.post('/news', (req, res)=>{
+    let text = req.body.test
+    console.log(text)
+
+    if(!text || typeof req.body.test == undefined || req.body.test == null) {
+        req.flash('error_msg', 'Nao pode ser um campo vazio!')
+        res.redirect('/')
+    }
+
+
+     
+    Postagem.find({titulo: req.body.test}).populate('categoria').sort({data: 'desc'}).then((livros, postagens)=>{
+        Categoria.find().then(cat =>{
+        res.render('livros',
+         {postagens: postagens,
+          cat: cat,
+          livros: livros,
+          styles: 'index.css'
+        })
+    })
+        
+        // Categoria.find().then(cat =>{
+            
+          
+        // })
+    }).catch((err)=>{
+        req.flash('error_msg', 'Houve um erro interno' )
+        res.redirect('/404')
+    })
+
+
+
+
+
+
+    // Postagem.find({titulo: req.body.test}).then(livros=>{
+    //     res.render('livros', {livros:livros})
+    // })
+})
+
+
+
+
+
+
+
+
 app.get('/categorias', (req, res)=>{ 
-    Categoria.find().then((categorias)=>{
-        res.render('categorias/index', {categorias: categorias})
+    Categoria.find().then((cat)=>{
+        res.render('categorias/index', {cat: cat, styles: 'index.css'})
     }).catch((err)=>{
         req.flash('error_msg', 'Houve um erro interno ao listar as categorias' )
         res.redirect('/')
@@ -95,11 +152,16 @@ app.get('/categorias', (req, res)=>{
 })
 
 app.get('/categorias/:slug', (req, res)=>{
-    Categoria.findOne({slug: req.params.slug}).then((categoria)=>{
+    Categoria.findOne({slug: req.params.slug}).then((cat)=>{
 
-        if(categoria){
-            Postagem.find({categoria: categoria._id}).then((postagens)=>{
-                res.render('categorias/postagens', {postagens: postagens, categoria: categoria})
+        if(cat){
+            Postagem.find({categoria: cat._id}).then((postagens)=>{
+                res.render('categorias/postagens',
+                 {postagens: postagens,
+                 cat: cat,
+                 styles: 'index.css'
+                
+                })
             }).catch((err)=>{
                 req.flash('error_msg', 'Houve um erro ao listar os posts!')
                 console.log(err);
@@ -120,6 +182,7 @@ app.get('/categorias/:slug', (req, res)=>{
 app.get('/404', (req, res)=>{ 
     res.send('404')
 })
+
 
 app.listen(Port, () => {
     console.log("Rodando na Porta: ", Port);

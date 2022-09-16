@@ -2,20 +2,52 @@
 <div class="alert alert-danger">{{texto}}</div>
 {{else}}
 {{/each}}
+<a href="/admin/postagens">
+	<button class="btn btn-warning btns">Voltar</button>
+</a>
 <div class="card">
     <div class="card-body">
-        <h4>Editar postagem: </h4>
+        <h4>Editar Livro: </h4>
         <form action="/admin/postagem/edit" method="post">
         <input type="hidden" value="{{postagem._id}}" name="id">
-            <label for="titulo">Título: </label>
-            <input type="text" name="titulo" class="form-control"  value="{{postagem.titulo}}">
-            <label for="slug">Slug: </label>
-            <input type="text" name="slug" class="form-control" value="{{postagem.slug}}" >
+            <label for="titulo">Nome: </label>
+            <input type="text" name="nome" class="form-control"  value="{{postagem.NOME}}">
+
+            <label for="autor">Autor: </label>
+            <input type="text" name="autor" class="form-control" value="{{postagem.AUTOR}}" >
 
             <label for="descricao">Descrição: </label>
-            <input type="text" name="descricao" class="form-control" value="{{postagem.descricao}}">
+            <input type="text" name="descricao" class="form-control" value="{{postagem.DESCRICAO}}">
+
             <label for="conteudo">Conteúdo: </label>
-            <textarea name="conteudo" class="form-control"  >{{postagem.conteudo}}</textarea>
+            <textarea name="conteudo" class="form-control"  >{{postagem.CONTEUDO}}</textarea>
+
+            <label for="volume">Volume: </label>
+            <input type="text" name="vol" class="form-control" value="{{postagem.VOL}}">
+
+            <label for="ed">ED: </label>
+            <input type="text" name="ed" class="form-control" value="{{postagem.ED}}">
+
+            <label for="ano">Ano: </label>
+            <input type="text" name="ano" class="form-control" value="{{postagem.ANO}}">
+
+            <label for="editora">Editora: </label>
+            <input type="text" name="editora" class="form-control" value="{{postagem.EDITORA}}">
+
+            <label for="origem">Origem: </label>
+            <input type="text" name="origem" class="form-control" value="{{postagem.ORIGEM}}">
+
+            <label for="origem">Localização: </label>
+            <input type="text" name="localizacao" class="form-control" value="{{postagem.LOCALIZACAO}}">
+
+            <label for="origem">Exemplares: </label>
+            <input type="text" name="exemplares" class="form-control" value="{{postagem.EXEMPLARES}}">
+
+            <label for="origem">Data: </label>
+            <input type="text" name="data" class="form-control" value="{{postagem.DATA}}">
+
+            
+
             <label for="cateoria">Categoria: </label>
             <select name="categoria" class="form-select">
                 {{#each categorias}}
@@ -25,7 +57,7 @@
                 {{/each}}
             </select>
            
-            <button type="submit" class="btn btn-success mt-4">Editar postagem</button>
+            <button type="submit" class="btn btn-success mt-4">Editar Livro</button>
         </form>
     </div>
 </div>
